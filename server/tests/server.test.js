@@ -284,7 +284,7 @@ describe('POST /users/login', () => {
         }
 
         User.findById(users[1]._id).then((thisUser) => {
-          expect(thisUser.tokens[0]).toInclude({
+          expect(thisUser.tokens[1]).toInclude({
             access: 'auth',
             token: res.headers['x-auth']
           });
@@ -310,8 +310,26 @@ describe('POST /users/login', () => {
         if (err) {
           return done(err);
         }
+        done();
+      });
+  });
+});
 
-        User.findById(users[1]._id).then((thisUser) => {
+
+
+describe('DELETE /users/me/token', () => {
+
+  it('should remove auth token on logout', (done) => {
+    request(app)
+      .delete('/users/me/token')
+      .set('x-auth', users[0].tokens[0].token)
+      .expect(200)
+      .end((err,res) => {
+        if (err) {
+          return done(err);
+        }
+
+        User.findById(users[0]._id).then((thisUser) => {
           expect(thisUser.tokens.length).toBe(0);
           done();
         }).catch((e) => {
