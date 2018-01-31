@@ -28,18 +28,21 @@ const users = [{
 const todos = [{
                 _id: new ObjectID(),
                 text: 'first test todo',
-                completed: false
+                completed: false,
+                _creator: userOneId
               },
               {
                 _id: new ObjectID(),
                 text: 'second test todo',
-                completed: false
+                completed: false,
+                _creator: userTwoId
               },
               {
                 _id: new ObjectID(),
                 text: 'third test todo',
                 completed: true,
-                completedAt: 333
+                completedAt: 333,
+                _creator: userOneId
               }];
 
 const populateTodos = (done) => {
@@ -52,7 +55,7 @@ const populateUsers = (done) => {
   User.remove({}).then(() => {
     var userOne = new User(users[0]).save();
     var userTwo = new User(users[1]).save();
-    return Promise.all([userOne, userTwo])
+    return Promise.all([userOne, userTwo]);
   }).then(() => done());
 };
 
