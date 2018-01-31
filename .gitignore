@@ -60,3 +60,6 @@ typings/
 
 # ignore package-lock file
 package-lock.json
+
+# ignore config.json
+config.json
